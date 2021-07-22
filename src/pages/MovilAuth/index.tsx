@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import firebase from "firebase";
 
 import Header from "../../components/Header";
+import Modal from "../../components/Modal";
 import PhoneValidator from "../../utils/PhoneValidator";
 import { sendSMSCode, verifyCode, getRecaptcha } from "../../services/firebase/phone-auth";
 
@@ -35,12 +36,16 @@ const MovilAuth = (): JSX.Element => {
     const validateNumberFirebase = async (code: string): Promise<boolean | undefined> => {
         if (veriResult) {
             const result = await verifyCode(code, veriResult);
-            if (result) alert("Logueadisimo!");
+            if (result) setModalMessage("Logueadisimo!");
+            setShowModal(true);
             return result;
         }
 
         return false;
     };
+
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
 
     return (
         <StyledContainer>
@@ -60,6 +65,7 @@ const MovilAuth = (): JSX.Element => {
                     />
                 )}
             </StyledMain>
+            <Modal message={modalMessage} setShow={setShowModal} show={showModal}></Modal>
         </StyledContainer>
     );
 };

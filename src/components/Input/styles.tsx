@@ -33,7 +33,6 @@ export const StyledIconBox = styled.div`
 export const StyledRightIconBox = styled.div`
     background-color: ${colors.lightGray};
     position: absolute;
-    z-index: 10;
     right: 0;
     display: flex;
     justify-content: center;

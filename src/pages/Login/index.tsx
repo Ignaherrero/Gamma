@@ -1,5 +1,6 @@
 import React, { useState, FormEvent } from "react";
 import Button from "../../components/Button";
+import Modal from "../../components/Modal";
 import Input from "../../components/Input";
 import { InputIsValid } from "../../utils/InputValidation";
 import Logo from "../../assets/img/Logo.svg";
@@ -13,6 +14,9 @@ import { useHistory } from "react-router-dom";
 const LoginPage: React.FC = (): JSX.Element => {
     const { t } = useTranslation("Login");
     const { push } = useHistory();
+
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
 
     const [usernameObj, setUsernameObj] = useState({
         value: "",
@@ -60,10 +64,11 @@ const LoginPage: React.FC = (): JSX.Element => {
                 .then((/*data*/) => {
                     push("home");
                 })
-                .catch((error) => alert(error.message));
+                .catch((error) => setModalMessage(error.message));
         } else {
-            alert("The username and password are not valid");
+            setModalMessage("The username and password are not valid");
         }
+        setShowModal(true);
     };
 
     return (
@@ -96,6 +101,7 @@ const LoginPage: React.FC = (): JSX.Element => {
                 />
                 <Button variant={variantType.PRIMARY}>{t("Login")}</Button>
             </StyledForm>
+            <Modal message={modalMessage} setShow={setShowModal} show={showModal}></Modal>
         </StyledMainWrapper>
     );
 };
